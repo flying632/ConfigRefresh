@@ -35,7 +35,7 @@ import java.util.logging.Logger;
  */
 @Slf4j
 @Component
-public class EurekaPropertiesRefresher implements ApplicationContextAware {
+public class PropertiesRefresher implements ApplicationContextAware {
 
     ApplicationContext applicationContext;
 
@@ -44,23 +44,23 @@ public class EurekaPropertiesRefresher implements ApplicationContextAware {
 
     @ApolloConfigChangeListener("suwp-commonms-dev")
     public void onChange(ConfigChangeEvent changeEvent){
-        boolean eurekaPropertiesChanged = false;
-        for (String changedKey : changeEvent.changedKeys()) {
-            if (changedKey.startsWith("eureka.")) {
-                log.info("===============================================================");
-                log.info("changedKey:{} value:{}",changedKey,changeEvent.getChange(changedKey));
-                ConfigChange configChange = changeEvent.getChange(changedKey);
-                configChange.getOldValue();
-                eurekaPropertiesChanged = true;
-                break;
-            }
-        }
-        refreshEurekaProperties(changeEvent);
+//         boolean eurekaPropertiesChanged = false;
+//         for (String changedKey : changeEvent.changedKeys()) {
+//             if (changedKey.startsWith("eureka.")) {
+//                 log.info("===============================================================");
+//                 log.info("changedKey:{} value:{}",changedKey,changeEvent.getChange(changedKey));
+//                 ConfigChange configChange = changeEvent.getChange(changedKey);
+//                 configChange.getOldValue();
+//                 eurekaPropertiesChanged = true;
+//                 break;
+//             }
+//         }
+        refreshProperties(changeEvent);
 //        if (eurekaPropertiesChanged) {
 //            refreshEurekaProperties(changeEvent);
 //        }
     }
-    public void refreshEurekaProperties(ConfigChangeEvent changeEvent){
+    public void refreshProperties(ConfigChangeEvent changeEvent){
         this.applicationContext.publishEvent(new EnvironmentChangeEvent(changeEvent.changedKeys()));
         refreshScope.refreshAll();
     }
